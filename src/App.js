@@ -11,7 +11,7 @@ export default function App() {
   const [inputMessage, setInputMessage] = useState("");
   const [loadingWaves, setLoadingWaves] = useState(false);
   const [loadingWave, setLoadingWave] = useState(false);
-  const contractAddress = "0x55E8f66BEf8995D5038Ff0b26497DD031274B437";
+  const contractAddress = "0xeFA935d80408bcf1aB818f3F193Dc8a5dd0fFBFF";
   const contractABI = abi.abi;
 
   const getAllWaves = async () => {
@@ -39,11 +39,16 @@ export default function App() {
             message: wave.message
           });
         });
-
-        /*
-         * Store our data in React State
-         */
         setAllWaves(wavesCleaned);
+        wavePortalContract.on("NewWave", (from, timestamp, message) => {
+          console.log("NewWave", from, timestamp, message);
+
+          setAllWaves(prevState => [...prevState, {
+            address: from,
+            timestamp: new Date(timestamp * 1000),
+            message: message
+          }]);
+        });
         setLoadingWaves(false)
       } else {
         console.log("Ethereum object doesn't exist!")
@@ -117,7 +122,7 @@ export default function App() {
         /*
         * Execute the actual wave from your smart contract
         */
-        const waveTxn = await wavePortalContract.wave(inputMessage);
+        const waveTxn = await wavePortalContract.wave(inputMessage, { gasLimit: 300000 });
         console.log("Mining...", waveTxn.hash);
 
         await waveTxn.wait();
@@ -125,7 +130,7 @@ export default function App() {
 
         count = await wavePortalContract.getTotalWaves();
         console.log("Retrieved total wave count...", count.toNumber());
-        getAllWaves();
+        // getAllWaves();
         setLoadingWave(false);
       } else {
         console.log("Ethereum object doesn't exist!");
@@ -133,6 +138,13 @@ export default function App() {
       }
     } catch (error) {
       console.log(error)
+      if (error?.error?.code === -32603) {
+        alert("Need to wait 30 seconds")
+      }
+
+      if (error?.code === 4001) {
+        alert("Transaction rejected")
+      }
       setLoadingWave(false);
     }
   }
@@ -161,7 +173,7 @@ export default function App() {
         </div>
 
         <input className="waveInput" type="text" value={inputMessage} onChange={handleChange} />
-        <button className="waveButton" onClick={() => wave(inputMessage)}>
+        <button className="waveButton" onClick={() => wave(inputMessage)} disabled={loadingWave}>
           {loadingWave ? 'Loading...' : 'Wave at Me'}
         </button>
         {/*
