@@ -94,6 +94,7 @@ export default function App() {
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
       console.log("Connected", accounts[0]);
+      getAllWaves()
       setCurrentAccount(accounts[0]);
     } catch (error) {
       console.log(error)
@@ -104,7 +105,7 @@ export default function App() {
     try {
       const { ethereum } = window;
 
-      if (ethereum) { 
+      if (ethereum) {
         setLoadingWave(true)
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -173,9 +174,9 @@ export default function App() {
         )}
         {!loadingWaves && allWaves.map((wave, index) => {
           return (
-            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
+            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px", borderRadius: "5px" }}>
               <div>Address: {wave.address}</div>
-              <div>Time: {wave.timestamp.toString()}</div>
+              <div>Time: {wave.timestamp.toLocaleString()}</div>
               <div>Message: {wave.message}</div>
             </div>)
         })}
