@@ -4,7 +4,6 @@
   width: 100%;
   margin-top: 64px;
   margin-bottom: 64px;
-
 }
 
 .dataContainer {
@@ -22,7 +21,7 @@
 
 .bio {
   text-align: center;
-  color: gray;
+  /* color: gray; */
   margin-top: 16px;
 }
 
@@ -32,10 +31,20 @@
   padding: 8px;
   border: 0;
   border-radius: 5px;
+  background-color: black;
+  color: white;
 }
 
 .waveInput {
   margin-top: 16px;
   padding: 8px;
   border-radius: 5px;
+  border: 2px solid black;
+}
+
+.waveEntry {
+  padding: 8px;
+  border-radius: 5px;
+  border: 2px solid black;
+  margin-top: 16px;
 }

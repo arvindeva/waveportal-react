@@ -164,17 +164,19 @@ export default function App() {
 
       <div className="dataContainer">
         <div className="header">
-          <span role="img" aria-label="Wave Emoji">👋</span> Hey there!
+          <span role="img" aria-label="Wave Emoji">👋 </span>
+          plz wave
+          <span role="img" aria-label="Wave Emoji"> 👋</span>
         </div>
 
         <div className="bio">
-          <p>I am R'veen and I'm a frontend developer. This is my first web3 project and I hope this thing works.</p>
-          <p>Connect your Ethereum wallet and wave at me!</p>
+          <p>hi my name is r'veen and i'm a frontend developer. this is my first web3 project and i hope this thing works.</p>
+          <p>connect your ethereum wallet and wave at me!</p>
         </div>
 
-        <input className="waveInput" type="text" value={inputMessage} onChange={handleChange} />
+        <input className="waveInput" type="text" value={inputMessage} onChange={handleChange} placeholder="type your message here" />
         <button className="waveButton" onClick={() => wave(inputMessage)} disabled={loadingWave}>
-          {loadingWave ? 'Loading...' : 'Wave at Me'}
+          {loadingWave ? 'loading...' : 'wave at me'}
         </button>
         {/*
         * If there is no currentAccount render this button
@@ -186,10 +188,11 @@ export default function App() {
         )}
         {!loadingWaves && allWaves.map((wave, index) => {
           return (
-            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px", borderRadius: "5px" }}>
-              <div>Address: {wave.address}</div>
-              <div>Time: {wave.timestamp.toLocaleString()}</div>
-              <div>Message: {wave.message}</div>
+            <div key={index} className="waveEntry">
+              <div><b>{wave.message}</b></div>
+              <br />
+              <div>from <b>{wave.address}</b></div>
+              <div>at {wave.timestamp.toLocaleString()}</div>
             </div>)
         })}
         {loadingWaves && <p>Loading...</p>}
