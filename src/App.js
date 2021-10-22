@@ -191,7 +191,7 @@ export default function App() {
             <div key={index} className="waveEntry">
               <div><b>{wave.message}</b></div>
               <br />
-              <div>from <b>{wave.address}</b></div>
+              <div><b>{wave.address}</b></div>
               <div>at {wave.timestamp.toLocaleString()}</div>
             </div>)
         })}
